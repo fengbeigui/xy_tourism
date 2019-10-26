@@ -1,72 +1,56 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        xianyun
-      </h1>
-      <h2 class="subtitle">
-        My doozie Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+    <!-- 幻灯片 -->
+<!--     轮播图
+    interval：相隔时间
+    arrow：是否显示在左右的箭头
+    background-size:contain contain 大小百分百的意思 -->
+    <el-carousel :interval="5000" arrow="always">
+      <el-carousel-item v-for="(item, index) in banners" :key="index">
+        <div
+          class="banner-image"
+          :style="`
+                background:url(${item.url}) center center no-repeat;
+                background-size:contain contain;
+                `"
+        ></div>
+      </el-carousel-item>
+    </el-carousel>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
+  data() {
+    return {
+      // 轮播图数据
+      banners: [
+        {
+          url: "http://157.122.54.189:9095/assets/images/th03.jfif"
+        },
+        {
+          url: "http://157.122.54.189:9095/assets/images/th04.jfif"
+        }
+      ]
+    };
   }
-}
+};
 </script>
 
-<style>
+<style scoped lang="less">
 .container {
+  min-width: 1000px;
   margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+  position: relative;
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
+  /deep/ .el-carousel__container {
+    height: 700px;
+  }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+  .banner-image {
+     //轮播图的图片百分百
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
