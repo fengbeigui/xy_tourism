@@ -59,33 +59,28 @@ export default {
         if (valid) {
           //提交登录接口
           //await的使用，必须在前面加上async
-          var res = await this.$axios({
-            url: "/accounts/login",
-            //post请求使用method:
-            method: "post",
-            //data储存有用户名和密码等信息
-            data: this.form
-          });
-          //console.log(res,'666');//打印200请求成功或者400失败
-
-          if (res.status === 200) {
-            //还会跳出登录成功效果，这是插件的原因，简单化了许多
-            this.$message.success("登录成功");
-            //先不跳转到首页
-            //this.$router.push('/');
-
-            const data = res.data;
-            //console.log(data,'6666');//请求到的token
-            //把token保存到本地，在头部组件中显示用户数据
-
-            //vuex不能通过直接赋值方式来修改state的值
-            //this.$store.state.user.username = data.user.nickname
-
-            //通过调用mutations下的方法修改state的值，commit方法调用mutation的方法
-            // this.$store.commit("user/setUsername", data.user.nickname);
-            this.$store.commit("user/setUserInfo", data);
-          }
-
+          //   var res = await this.$axios({
+          //     url: "/accounts/login",
+          //     //post请求使用method:
+          //     method: "post",
+          //     //data储存有用户名和密码等信息
+          //     data: this.form
+          //   });
+          //   //console.log(res,'666');//打印200请求成功或者400失败
+          //   if (res.status === 200) {
+          //     //还会跳出登录成功效果，这是插件的原因，简单化了许多
+          //     this.$message.success("登录成功");
+          //     //先不跳转到首页
+          //     //this.$router.push('/');
+          //     const data = res.data;
+          //     //console.log(data,'6666');//请求到的token
+          //     //把token保存到本地，在头部组件中显示用户数据
+          //     //vuex不能通过直接赋值方式来修改state的值
+          //     //this.$store.state.user.username = data.user.nickname
+          //     //通过调用mutations下的方法修改state的值，commit方法调用mutation的方法
+          //     // this.$store.commit("user/setUsername", data.user.nickname);
+          //     this.$store.commit("user/setUserInfo", data);
+          //   }
           //   //新增代码 方法二这是按照文档的那种方法
           //   this.$store.dispatch("user/login", this.form).then(res => {
           //     //成功提示
@@ -98,6 +93,16 @@ export default {
           //       this.$router.replace("/");
           //     }, 1000);
           //   });
+
+          //this.$store.dispath用于调运action的方法
+          // 通过$store.dispatch调用actions中的方法来实现登录
+          const res = await this.$store.dispatch("user/login", this.form);
+
+          if (res.status === 200) {
+            this.$message.success("登录成功");
+            // 跳转到首页
+            this.$router.push("/");
+          }
         }
       });
     }

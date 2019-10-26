@@ -33,4 +33,18 @@ export const actions = {
     //         return data;
     //     })
     // }
+
+    //封装登录的方法
+    //store是固定必须要有的参数，执行当前的store ==组件内的this.$store
+    async login(store, data) {
+        var res = await this.$axios({
+            url: '/accounts/login',
+            method: 'post',
+            data
+        })
+        if (res.status === 200) {
+            store.commit("setUserInfo", res.data);
+        }
+        return res;
+    }
 };
