@@ -24,16 +24,22 @@
         <!-- tab栏 -->
         <!--  row通过基础的 24 分栏，迅速简便地创建布局。 -->
         <el-row type="flex" class="search-tab">
-          <!--  重复循环的，找一个循环遍历 -->
-          <span v-for="(item,index) in option" :key="index">
+          <!--  重复循环的，找一个循环遍历  index值对应没一项-->
+          <span v-for="(item,index) in option" 
+          :key="index" 
+          :class="{active:index === current}"
+          @click="handleTabChange(index)">
             <i>{{item.title}}</i>
           </span>
         </el-row>
         <!--  输入框 -->
         <!-- align 属性规定 div 元素中的内容的水平对齐方式。 -->
-        <el-row type="flex" aligin="middle" class="search-input">
-          <input placeholder="请输入城市"  />
-          <i class="el-icon-search"></i>
+        <el-row type="flex" aligin="middle" class="search-input" >
+          <input 
+          v-model="searchValue"
+          @keyup.enter="handleSearch"
+          :placeholder="option[current].placeholder"  />
+          <i class="el-icon-search" @click="handleSearch"></i>
         </el-row>
       </div>
     </div>
@@ -56,10 +62,14 @@ export default {
       ],
       //tab栏的数据结构，重点在于自己会构造出数据结构
       option: [
-        { title: "攻略", placeholder: "搜索城市" },
-        { title: "酒店", placeholder: "请输入城市搜索酒店" },
-        { title: "机票", placeholder: "" }
-      ]
+        { title: "攻略", placeholder: "搜索城市",pageUrl: "/post?city=" },
+        { title: "酒店", placeholder: "请输入城市搜索酒店",pageUrl: "/hotel?city=" },
+        { title: "机票", placeholder: "请输入出发地",pageUrl: "/air" }
+      ],
+      //tab栏切换的索引，把变量 current用起来
+       current: 0,  //当前选中的值
+       searchValue:"", //搜索框的值
+
     };
   },
   //这个框架已经帮你做了很多这个事情，this.$axios
@@ -75,7 +85,40 @@ export default {
       //赋值给banners
       this.banners = data;
     });
-  }
+  },
+//注意，事件函数写在methods里面methods:{}
+methods:{
+   //起一个事件名，点击tab栏时候触发
+   handleTabChange(index){
+      //tab栏的索引值
+      this.current = index;
+
+      //如果索引值等于2跳转到飞机,针对单个的
+      // if(index ==2){
+      //    this.$router.push("/air")
+      // }
+      // 如果切换的机票tab，那么直接跳转到机票首页
+      const item = this.option[index];
+      //console.log(item,'666');//item打印的是option里面的信息
+      
+      if(item.name === "机票"){
+         //路由跳转
+         return this.$router.push(item.pageUrl);
+      }
+
+   },
+
+   //点击搜索触发事件
+   handleSearch(){
+      //this.option[this.current];当前选项了哪一项
+      const item = this.option[this.current];
+      // 跳转时候给对应的页面url加上搜索内容参数
+      //this.$router.push固定跳转路由写法，this.searchValue搜索的值
+     // console.log(this.searchValue,'6666'); 打印输入的值 
+     //console.log(item.pageUrl); 在哪框，就跳转到哪个pageUrl值         
+     this.$router.push(item.pageUrl + this.searchValue)
+   }
+}
 };
 </script>
 
