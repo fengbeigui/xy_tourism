@@ -63,6 +63,10 @@ export default {
       //console.log(123);
       // 清空用户数据,使用commit方法
       this.$store.commit("user/setUserInfo", {});
+      this.$message({
+        message:"退出成功",
+        type:"success"
+      })
     }
   },
   //接收请求
