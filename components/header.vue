@@ -73,6 +73,7 @@ export default {
   mounted() {
     //打印出来的信息，
     //console.log(this.$store.state.user.username,'5656');
+     console.log(this.$store.state);
   }
 };
 </script>

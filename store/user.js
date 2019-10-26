@@ -46,5 +46,17 @@ export const actions = {
             store.commit("setUserInfo", res.data);
         }
         return res;
+    },
+    //发送手机验证码，tel是传入的手机号码
+    async sendCaptcha(store, tel) {
+        const res = await this.$axios({
+            url: "/captchas",
+            method: "post",
+            data: {
+                tel //手机号码
+            }
+        });
+        //注意这里需要返回，不然点击验证的时候会显示data 没有定义
+        return res;
     }
 };
