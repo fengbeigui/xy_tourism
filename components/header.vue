@@ -40,7 +40,7 @@
         </el-dropdown>
 
         <!-- 不存在用户信息展示登录注册链接 -->
-        <nuxt-link to="/user/login" class="account-link" v-else>登录 / 注册</nuxt-link>
+        <nuxt-link to="/user/login" class="account-link" v-if="!$store.state.user.userInfo.token">登录 / 注册</nuxt-link>
         <!-- {{$store.state.user.username}} -->
 
         <!--  如果用户存在则展示用户信息，用户数据来自store -->
@@ -75,7 +75,8 @@ export default {
   },
   //接收请求
   mounted() {
-    console.log(this.$store.state.user.username);
+    //打印出来的信息，
+    console.log(this.$store.state.user.username,'5656');
   }
 };
 </script>
