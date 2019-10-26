@@ -20,27 +20,14 @@
 
       <!-- 登录/用户信息 -->
       <el-row type="flex" align="middle">
-        <!-- 如果用户存在则展示用户信息，用户数据来自store -->
-        <el-dropdown v-if="false">
-          <el-row type="flex" align="middle" class="el-dropdown-link">
-            <nuxt-link to="#">
-              <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" />
-              用户名
-            </nuxt-link>
-            <i class="el-icon-caret-bottom el-icon--right"></i>
-          </el-row>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <nuxt-link to="#">个人中心</nuxt-link>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <div @click="handleLogout">退出</div>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <!-- 这里把之前重复的去掉 -->
 
         <!-- 不存在用户信息展示登录注册链接 -->
-        <nuxt-link to="/user/login" class="account-link" v-if="!$store.state.user.userInfo.token">登录 / 注册</nuxt-link>
+        <nuxt-link
+          to="/user/login"
+          class="account-link"
+          v-if="!$store.state.user.userInfo.token"
+        >登录 / 注册</nuxt-link>
         <!-- {{$store.state.user.username}} -->
 
         <!--  如果用户存在则展示用户信息，用户数据来自store -->
@@ -71,12 +58,17 @@
 export default {
   methods: {
     //用户退出
-    handleLogout() {}
+    handleLogout() {
+      //清空用户数据
+      //console.log(123);
+      // 清空用户数据,使用commit方法
+      this.$store.commit("user/setUserInfo", {});
+    }
   },
   //接收请求
   mounted() {
     //打印出来的信息，
-    console.log(this.$store.state.user.username,'5656');
+    //console.log(this.$store.state.user.username,'5656');
   }
 };
 </script>
@@ -122,7 +114,7 @@ export default {
         color: #409eff;
       }
     }
-
+    // nuxt会自动匹配nuxt-link的to属性，如果to的值和url的相等的话就自动加上该样式
     /deep/ .nuxt-link-exact-active {
       background: #409eff;
       color: #fff !important;
